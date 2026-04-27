@@ -29,9 +29,9 @@
 - [x] Fundo escuro com mensagens com glow azul leve
 - [x] Animação de "pensando" (pontos pulsando)
 - [x] Visualização de onda sonora reagindo durante respostas
-- [ ] Integração com LLM para diagnóstico inteligente
-- [ ] Capacidade de detectar padrões de vibração e recomendar manutenção
-- [ ] Personalidade própria da IA nas respostas
+- [x] Integração com LLM para diagnóstico inteligente
+- [ ] Capacidade de detectar padrões de vibração avançada
+- [x] Personalidade própria da IA nas respostas (ConnectMT Tech)
 
 ## Text-to-Speech (Síntese de Voz)
 - [ ] Integrar API de text-to-speech para respostas da IA
@@ -72,8 +72,8 @@
 - [x] Transições de página fluidas
 
 ## Navegação & Fluxo
-- [x] Criar navegação entre telas (Home, Dashboard, Chat, Modo Capacete, Mapa, Alertas)
-- [x] Menu de navegação bottom ou side (mobile-first)
+- [x] Criar navegação entre telas (Início, Diagnóstico, IA, Pilotagem, Mapa, Alertas, Ajustes)
+- [x] Menu de navegação bottom mobile-first com 7 itens
 - [x] Integração de autenticação com Manus OAuth
 - [x] Persistência de estado do usuário
 
