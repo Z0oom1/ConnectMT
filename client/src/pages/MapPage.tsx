@@ -38,8 +38,12 @@ export default function MapPage() {
     <div className="min-h-screen bg-background flex flex-col pb-24">
       {/* Header */}
       <div className="sticky top-0 glass border-b border-accent/20 p-4 z-40">
-        <h1 className="text-2xl font-bold text-accent">Mapa</h1>
-        <p className="text-sm text-muted-foreground mt-1">Trajeto em tempo real</p>
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" className="text-foreground" onClick={() => window.history.back()}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </Button>
+          <h1 className="text-xl font-bold text-foreground">Mapa ao vivo</h1>
+        </div>
       </div>
 
       {/* Map Container */}
@@ -119,55 +123,24 @@ export default function MapPage() {
         </div>
       </div>
 
-      {/* Controls */}
-      <div className="glass border-t border-accent/20 p-4">
-        <div className="space-y-3">
-          {/* Progress Bar */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Progresso do Replay</span>
-              <span>{Math.round(replayProgress)}%</span>
-            </div>
-            <div className="h-2 bg-muted rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-accent to-blue-400 transition-all duration-100"
-                style={{ width: `${replayProgress}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Route Info */}
-          <div className="grid grid-cols-3 gap-2 text-center text-sm">
+      {/* Stats Overlay */}
+      <div className="absolute bottom-24 left-4 right-4 z-30">
+        <div className="glass-card p-4">
+          <div className="flex justify-between items-end">
             <div>
-              <p className="text-muted-foreground text-xs">Distância</p>
-              <p className="text-accent font-semibold">45.2 km</p>
+              <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Última atualização</p>
+              <p className="text-sm font-medium text-foreground">Agora</p>
             </div>
-            <div>
-              <p className="text-muted-foreground text-xs">Tempo</p>
-              <p className="text-accent font-semibold">1h 23m</p>
+            <div className="flex gap-6">
+              <div>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Velocidade</p>
+                <p className="text-sm font-bold text-foreground">92 km/h</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Distância</p>
+                <p className="text-sm font-bold text-foreground">12,4 km</p>
+              </div>
             </div>
-            <div>
-              <p className="text-muted-foreground text-xs">Velocidade Média</p>
-              <p className="text-accent font-semibold">32.8 km/h</p>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-2">
-            <Button
-              onClick={handleReplayToggle}
-              className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90 btn-press"
-            >
-              {isReplaying ? <Pause size={20} /> : <Play size={20} />}
-              <span className="ml-2">{isReplaying ? 'Pausar' : 'Reproduzir'}</span>
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outline"
-              className="flex-1 border-accent/30 text-accent hover:bg-accent/10 btn-press"
-            >
-              <RotateCcw size={20} />
-            </Button>
           </div>
         </div>
       </div>

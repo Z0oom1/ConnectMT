@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { useLocation } from 'wouter';
-import { Gauge, Compass, Thermometer, MapPin } from 'lucide-react';
+import { Gauge, Compass, Thermometer, MapPin, Zap, Battery, Activity } from 'lucide-react';
+import { MotoBikeSilhouette } from '@/components/MotoBikeSilhouette';
 
 interface DashboardMetric {
   id: string;
@@ -12,44 +13,40 @@ interface DashboardMetric {
   color: string;
 }
 
-/**
- * Dashboard page - Real-time motorcycle metrics
- * Displays velocity, inclination, temperature, and location with animated cards
- */
 export default function Dashboard() {
   const [location] = useLocation();
   const [metrics, setMetrics] = useState<DashboardMetric[]>([
     {
       id: 'velocity',
       label: 'Velocidade',
-      value: 0,
+      value: 92,
       unit: 'km/h',
-      icon: <Gauge size={32} />,
+      icon: <Gauge size={24} />,
       color: 'from-blue-500 to-blue-600',
     },
     {
-      id: 'inclination',
-      label: 'Inclinação',
-      value: 0,
-      unit: '°',
-      icon: <Compass size={32} />,
-      color: 'from-purple-500 to-purple-600',
+      id: 'rpm',
+      label: 'Rotação',
+      value: '7.250',
+      unit: 'RPM',
+      icon: <Activity size={24} />,
+      color: 'from-accent to-blue-400',
     },
     {
       id: 'temperature',
       label: 'Temperatura',
-      value: 45,
+      value: 85,
       unit: '°C',
-      icon: <Thermometer size={32} />,
+      icon: <Thermometer size={24} />,
       color: 'from-orange-500 to-orange-600',
     },
     {
-      id: 'location',
-      label: 'Localização',
-      value: '-23.55°S',
-      unit: '-46.63°W',
-      icon: <MapPin size={32} />,
-      color: 'from-green-500 to-green-600',
+      id: 'inclination',
+      label: 'Inclinação',
+      value: '28°',
+      unit: 'Direita',
+      icon: <Compass size={24} />,
+      color: 'from-purple-500 to-purple-600',
     },
   ]);
 
@@ -79,67 +76,58 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
       <div className="sticky top-0 glass border-b border-accent/20 p-4 z-40">
-        <h1 className="text-2xl font-bold text-accent">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Monitoramento em tempo real</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-accent">CONNECTMT</h1>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-xs text-muted-foreground">Dispositivo</span>
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                <span className="text-xs text-green-500 font-medium">Conectado</span>
+              </div>
+            </div>
+          </div>
+          <div className="w-10 h-10 rounded-full glass flex items-center justify-center text-accent">
+            <Zap size={20} />
+          </div>
+        </div>
+      </div>
+
+      {/* Device Status */}
+      <div className="p-4">
+        <div className="glass-card flex flex-col items-center py-6">
+          <div className="w-full max-w-[200px] h-32 mb-4">
+            <MotoBikeSilhouette isActive={true} animated={false} />
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Bateria</span>
+            <div className="flex items-center gap-2">
+              <Battery className="text-accent" size={20} />
+              <span className="text-2xl font-bold text-foreground">12.8 V</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Metrics Grid */}
-      <div className="p-4 space-y-4">
+      <div className="p-4 grid grid-cols-2 gap-4">
         {metrics.map((metric, index) => (
           <div
             key={metric.id}
-            className="glass-card group cursor-pointer transition-smooth hover:border-accent/40"
+            className="glass-card group cursor-pointer transition-smooth hover:border-accent/40 flex flex-col"
             style={{
               animation: `slideUp 0.5s ease-out ${index * 0.1}s both`,
             }}
           >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="text-sm text-muted-foreground mb-2">{metric.label}</p>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-accent">
-                    {metric.value}
-                  </span>
-                  <span className="text-sm text-muted-foreground">{metric.unit}</span>
-                </div>
-              </div>
-              <div className={`p-3 rounded-lg bg-gradient-to-br ${metric.color} text-white opacity-80 group-hover:opacity-100 transition-smooth`}>
-                {metric.icon}
-              </div>
+            <p className="text-xs text-muted-foreground mb-3 uppercase tracking-wider">{metric.label}</p>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-3xl font-bold text-foreground group-hover:text-accent transition-smooth">
+                {metric.value}
+              </span>
             </div>
-
-            {/* Animated bar indicator */}
-            <div className="mt-4 h-1 bg-muted rounded-full overflow-hidden">
-              <div
-                className={`h-full bg-gradient-to-r ${metric.color} transition-all duration-500`}
-                style={{
-                  width: `${Math.min((Number(metric.value) / 120) * 100, 100)}%`,
-                }}
-              />
-            </div>
+            <span className="text-xs text-muted-foreground font-medium uppercase">{metric.unit}</span>
           </div>
         ))}
-      </div>
-
-      {/* Stats Summary */}
-      <div className="p-4 mt-8">
-        <div className="glass-card">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Resumo</h3>
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <p className="text-2xl font-bold text-accent">2h</p>
-              <p className="text-xs text-muted-foreground mt-1">Tempo de uso</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-accent">45km</p>
-              <p className="text-xs text-muted-foreground mt-1">Distância</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-accent">98%</p>
-              <p className="text-xs text-muted-foreground mt-1">Saúde</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       <style>{`
