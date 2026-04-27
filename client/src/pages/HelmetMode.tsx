@@ -10,122 +10,95 @@ import { Mic, MicOff, Volume2 } from 'lucide-react';
  */
 export default function HelmetMode() {
   const [location] = useLocation();
-  const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState('');
-  const [response, setResponse] = useState('');
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-
-  const handleVoiceInput = async () => {
-    if (!isListening) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorderRef.current = mediaRecorder;
-
-        const audioChunks: BlobPart[] = [];
-
-        mediaRecorder.ondataavailable = (event) => {
-          audioChunks.push(event.data);
-        };
-
-        mediaRecorder.onstop = async () => {
-          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-          // Here you would send the audio to your backend for transcription
-          setTranscript('Minha moto está fazendo um barulho estranho...');
-          setResponse('Detectei vibração anormal. Recomendo parar e verificar a corrente.');
-          stream.getTracks().forEach((track) => track.stop());
-        };
-
-        mediaRecorder.start();
-        setIsListening(true);
-      } catch (error) {
-        console.error('Error accessing microphone:', error);
-      }
-    } else {
-      mediaRecorderRef.current?.stop();
-      setIsListening(false);
-    }
-  };
+  
+  const stats = [
+    { label: 'Aceleração', value: 85 },
+    { label: 'Frenagem', value: 78 },
+    { label: 'Curvas', value: 90 },
+    { label: 'Consistência', value: 75 },
+  ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center pb-24">
-      {/* Status Indicator */}
-      <div className="absolute top-4 left-4 right-4 glass border-accent/20 p-3 rounded-lg">
-        <p className="text-sm text-muted-foreground text-center">Modo Capacete Ativo</p>
+    <div className="min-h-screen bg-background flex flex-col pb-24">
+      {/* Header */}
+      <div className="sticky top-0 glass border-b border-accent/20 p-4 z-40">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" className="text-foreground" onClick={() => window.history.back()}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </Button>
+          <h1 className="text-xl font-bold text-foreground">Sua Pilotagem</h1>
+        </div>
       </div>
 
-      {/* Main Voice Button */}
-      <div className="flex flex-col items-center justify-center flex-1 px-4">
-        {/* Pulse Circle Animation */}
-        <div
-          className={`relative w-32 h-32 mb-8 transition-smooth ${
-            isListening ? 'pulse-circle' : ''
-          }`}
-        >
-          <Button
-            onClick={handleVoiceInput}
-            className={`w-full h-full rounded-full transition-smooth ${
-              isListening
-                ? 'bg-red-500 text-white hover:bg-red-600 scale-110'
-                : 'bg-accent text-accent-foreground hover:bg-accent/90'
-            }`}
-          >
-            <div className="flex flex-col items-center gap-2">
-              {isListening ? (
-                <MicOff size={48} />
-              ) : (
-                <Mic size={48} />
-              )}
-              <span className="text-xs font-semibold">
-                {isListening ? 'Parar' : 'Falar'}
-              </span>
+      <div className="p-4 space-y-6">
+        {/* Score Circular */}
+        <div className="glass-card flex items-center justify-between p-6">
+          <div className="flex flex-col">
+            <span className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Score geral</span>
+            <span className="text-4xl font-bold text-foreground">82</span>
+            <span className="text-xs text-green-500 font-medium mt-1">Muito bom</span>
+          </div>
+          <div className="relative w-24 h-24">
+            <svg className="w-full h-full" viewBox="0 0 36 36">
+              <path
+                className="text-white/5"
+                strokeDasharray="100, 100"
+                strokeWidth="3"
+                stroke="currentColor"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path
+                className="text-accent"
+                strokeDasharray="62, 100"
+                strokeWidth="3"
+                strokeLinecap="round"
+                stroke="currentColor"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-xl font-bold text-foreground">62%</span>
             </div>
-          </Button>
+          </div>
         </div>
 
-        {/* Transcript Display */}
-        {transcript && (
-          <div className="glass-card max-w-sm w-full mb-6 text-center">
-            <p className="text-xs text-muted-foreground mb-2">Você disse:</p>
-            <p className="text-foreground font-medium">{transcript}</p>
-          </div>
-        )}
-
-        {/* AI Response */}
-        {response && (
-          <div className="glass-card max-w-sm w-full mb-6 border-accent/30">
-            <div className="flex items-start gap-3">
-              <Volume2 className="text-accent flex-shrink-0 mt-1" size={20} />
-              <div className="flex-1 text-left">
-                <p className="text-xs text-muted-foreground mb-2">Resposta IA:</p>
-                <p className="text-foreground font-medium">{response}</p>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 gap-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="glass-card p-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-xs text-muted-foreground">{stat.label}</span>
+                <span className="text-sm font-bold text-foreground">{stat.value}</span>
+              </div>
+              <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-accent transition-all duration-1000" 
+                  style={{ width: `${stat.value}%` }}
+                />
               </div>
             </div>
-          </div>
-        )}
+          ))}
+        </div>
 
-        {/* Wave Animation During Listening */}
-        {isListening && (
-          <div className="mt-8">
-            <div className="wave-animation">
-              <div className="wave-bar"></div>
-              <div className="wave-bar"></div>
-              <div className="wave-bar"></div>
-              <div className="wave-bar"></div>
-              <div className="wave-bar"></div>
-            </div>
+        {/* Weekly Performance Chart (Simplified) */}
+        <div className="glass-card p-4">
+          <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-4">Desempenho nos últimos 7 dias</p>
+          <div className="flex items-end justify-between h-32 px-2">
+            {[40, 70, 45, 90, 60, 80, 50].map((height, i) => (
+              <div key={i} className="flex flex-col items-center gap-2 flex-1">
+                <div 
+                  className={`w-2 rounded-t-full transition-all duration-1000 ${i === 3 ? 'bg-accent' : 'bg-white/10'}`}
+                  style={{ height: `${height}%` }}
+                />
+                <span className="text-[10px] text-muted-foreground uppercase">
+                  {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][i]}
+                </span>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
-
-      {/* Quick Actions */}
-      <div className="w-full max-w-sm px-4 space-y-2 mb-4">
-        <Button
-          variant="outline"
-          className="w-full border-accent/30 text-accent hover:bg-accent/10"
-        >
-          Voltar para Home
-        </Button>
+        </div>
       </div>
 
       {/* Bottom Navigation */}

@@ -19,10 +19,10 @@ interface BottomNavigationProps {
  */
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ currentPath }) => {
   const navItems: NavItem[] = [
-    { id: 'home', label: 'Home', icon: <Home size={24} />, path: '/' },
-    { id: 'dashboard', label: 'Dashboard', icon: <BarChart3 size={24} />, path: '/dashboard' },
+    { id: 'home', label: 'Início', icon: <Home size={24} />, path: '/' },
+    { id: 'dashboard', label: 'Diagnóstico', icon: <BarChart3 size={24} />, path: '/dashboard' },
     { id: 'chat', label: 'IA', icon: <MessageCircle size={24} />, path: '/chat' },
-    { id: 'helmet', label: 'Capacete', icon: <Headphones size={24} />, path: '/helmet' },
+    { id: 'helmet', label: 'Pilotagem', icon: <Headphones size={24} />, path: '/helmet' },
     { id: 'map', label: 'Mapa', icon: <Map size={24} />, path: '/map' },
     { id: 'alerts', label: 'Alertas', icon: <AlertCircle size={24} />, path: '/alerts' },
   ];
