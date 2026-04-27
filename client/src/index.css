@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -131,7 +131,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -374,6 +376,204 @@
     }
     50% {
       background-color: rgba(220, 38, 38, 0.3);
+    }
+  }
+}
+  /* Advanced Visual Effects */
+  .blur-neon {
+    backdrop-filter: blur(20px);
+    background: rgba(11, 15, 20, 0.5);
+  }
+
+  .gradient-neon {
+    background: linear-gradient(135deg, rgba(45, 170, 255, 0.1) 0%, rgba(45, 170, 255, 0.05) 100%);
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 30px rgba(45, 170, 255, 0.3), inset 0 0 30px rgba(45, 170, 255, 0.05);
+  }
+
+  .border-glow {
+    border: 1px solid rgba(45, 170, 255, 0.3);
+    box-shadow: inset 0 0 20px rgba(45, 170, 255, 0.1);
+  }
+
+  /* Smooth Page Transitions */
+  .page-enter {
+    animation: page-enter-anim 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .page-exit {
+    animation: page-exit-anim 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes page-enter-anim {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes page-exit-anim {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Enhanced Card Hover */
+  .card-hover {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(45, 170, 255, 0.2);
+  }
+
+  /* Shimmer Loading Effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(45, 170, 255, 0.1) 0%,
+      rgba(45, 170, 255, 0.3) 50%,
+      rgba(45, 170, 255, 0.1) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer-effect 2s infinite;
+  }
+
+  @keyframes shimmer-effect {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Floating Animation */
+  .float-animation {
+    animation: float-motion 3s ease-in-out infinite;
+  }
+
+  @keyframes float-motion {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Rotate Animation */
+  .rotate-animation {
+    animation: rotate-motion 20s linear infinite;
+  }
+
+  @keyframes rotate-motion {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Bounce Animation */
+  .bounce-animation {
+    animation: bounce-motion 1s ease-in-out;
+  }
+
+  @keyframes bounce-motion {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Glow Pulse Animation */
+  .glow-pulse {
+    animation: glow-pulse-motion 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes glow-pulse-motion {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(45, 170, 255, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(45, 170, 255, 0.8);
+    }
+  }
+
+  /* Slide In Animation */
+  .slide-in-left {
+    animation: slide-in-left-motion 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slide-in-left-motion {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .slide-in-right {
+    animation: slide-in-right-motion 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slide-in-right-motion {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Fade In Animation */
+  .fade-in {
+    animation: fade-in-motion 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes fade-in-motion {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Scale In Animation */
+  .scale-in {
+    animation: scale-in-motion 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes scale-in-motion {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 }

@@ -114,14 +114,14 @@ export default function Dashboard() {
         {metrics.map((metric, index) => (
           <div
             key={metric.id}
-            className="glass-card group cursor-pointer transition-smooth hover:border-accent/40 flex flex-col"
+            className="glass-card card-hover group cursor-pointer flex flex-col border-glow"
             style={{
               animation: `slideUp 0.5s ease-out ${index * 0.1}s both`,
             }}
           >
             <p className="text-xs text-muted-foreground mb-3 uppercase tracking-wider">{metric.label}</p>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-3xl font-bold text-foreground group-hover:text-accent transition-smooth">
+              <span className="text-3xl font-bold text-foreground group-hover:text-accent transition-smooth glow-pulse">
                 {metric.value}
               </span>
             </div>

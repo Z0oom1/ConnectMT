@@ -107,7 +107,7 @@ export default function MapPage() {
         </svg>
 
         {/* Legend */}
-        <div className="absolute bottom-4 left-4 glass-card text-sm space-y-2">
+        <div className="absolute bottom-4 left-4 glass-card card-hover text-sm space-y-2 border-glow">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
             <span className="text-muted-foreground">Início</span>
@@ -125,7 +125,7 @@ export default function MapPage() {
 
       {/* Stats Overlay */}
       <div className="absolute bottom-24 left-4 right-4 z-30">
-        <div className="glass-card p-4">
+        <div className="glass-card card-hover p-4 border-glow">
           <div className="flex justify-between items-end">
             <div>
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Última atualização</p>

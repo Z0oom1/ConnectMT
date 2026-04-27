@@ -32,7 +32,7 @@ export default function HelmetMode() {
 
       <div className="p-4 space-y-6">
         {/* Score Circular */}
-        <div className="glass-card flex items-center justify-between p-6">
+        <div className="glass-card card-hover flex items-center justify-between p-6 border-glow">
           <div className="flex flex-col">
             <span className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Score geral</span>
             <span className="text-4xl font-bold text-foreground">82</span>
@@ -67,7 +67,7 @@ export default function HelmetMode() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="glass-card p-4">
+            <div key={stat.label} className="glass-card card-hover p-4 border-glow">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-xs text-muted-foreground">{stat.label}</span>
                 <span className="text-sm font-bold text-foreground">{stat.value}</span>
@@ -83,7 +83,7 @@ export default function HelmetMode() {
         </div>
 
         {/* Weekly Performance Chart (Simplified) */}
-        <div className="glass-card p-4">
+        <div className="glass-card card-hover p-4 border-glow">
           <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-4">Desempenho nos últimos 7 dias</p>
           <div className="flex items-end justify-between h-32 px-2">
             {[40, 70, 45, 90, 60, 80, 50].map((height, i) => (

@@ -82,12 +82,12 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center px-4 py-8">
         {/* Motorcycle Silhouette */}
-        <div className={`w-full max-w-xs h-64 transition-smooth ${showAnimation ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`w-full max-w-xs h-64 transition-smooth scale-in ${showAnimation ? 'opacity-100' : 'opacity-0'}`}>
           <MotoBikeSilhouette isActive={motoStatus === 'ativa'} animated={true} />
         </div>
 
         {/* Status Message */}
-        <div className="mt-8 glass-card text-center max-w-sm w-full">
+        <div className="mt-8 glass-card card-hover text-center max-w-sm w-full border-glow fade-in">
           <p className="text-lg font-semibold text-foreground mb-2">Status da Moto</p>
           <p className="text-accent text-2xl font-bold transition-smooth">
             {statusMessage}
@@ -96,13 +96,13 @@ export default function Home() {
 
         {/* Quick Stats */}
         <div className="mt-8 grid grid-cols-2 gap-4 w-full max-w-sm">
-          <div className="glass-card text-center">
+          <div className="glass-card card-hover text-center border-glow slide-in-left">
             <p className="text-xs text-muted-foreground mb-1">Velocidade</p>
-            <p className="text-2xl font-bold text-accent">0 km/h</p>
+            <p className="text-2xl font-bold text-accent glow-pulse">0 km/h</p>
           </div>
-          <div className="glass-card text-center">
+          <div className="glass-card card-hover text-center border-glow slide-in-right">
             <p className="text-xs text-muted-foreground mb-1">Temperatura</p>
-            <p className="text-2xl font-bold text-accent">45°C</p>
+            <p className="text-2xl font-bold text-accent glow-pulse">45°C</p>
           </div>
         </div>
 

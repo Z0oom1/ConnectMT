@@ -99,10 +99,10 @@ export default function Chat() {
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-xs px-4 py-3 rounded-lg transition-smooth ${
+              className={`max-w-xs px-4 py-3 rounded-lg transition-smooth fade-in ${
                 message.role === 'user'
-                  ? 'bg-accent text-accent-foreground rounded-br-none'
-                  : 'glass text-foreground rounded-bl-none'
+                  ? 'bg-accent text-accent-foreground rounded-br-none shadow-lg'
+                  : 'glass text-foreground rounded-bl-none border-glow'
               }`}
             >
               <p className="text-sm">{message.content}</p>
@@ -117,8 +117,8 @@ export default function Chat() {
         ))}
 
         {isLoading && (
-          <div className="flex justify-start">
-            <div className="glass px-4 py-3 rounded-lg rounded-bl-none">
+          <div className="flex justify-start fade-in">
+            <div className="glass px-4 py-3 rounded-lg rounded-bl-none border-glow">
               <div className="thinking-dots">
                 <span></span>
                 <span></span>

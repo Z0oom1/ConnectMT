@@ -108,7 +108,7 @@ export default function Alerts() {
       {/* Alerts List */}
       <div className="p-4 space-y-4">
         {alerts.length === 0 ? (
-          <div className="glass-card text-center py-12">
+          <div className="glass-card card-hover text-center py-12 border-glow">
             <CheckCircle2 className="mx-auto mb-4 text-green-500" size={48} />
             <p className="text-foreground font-semibold mb-2">Tudo em ordem!</p>
             <p className="text-sm text-muted-foreground">
@@ -119,7 +119,7 @@ export default function Alerts() {
           alerts.map((alert) => (
             <div
               key={alert.id}
-              className={`glass-card border-l-4 transition-smooth p-5 ${getAlertColor(
+              className={`glass-card card-hover border-l-4 transition-smooth p-5 fade-in ${getAlertColor(
                 alert.type
               )} ${alert.type === 'critical' ? 'flash-alert' : ''}`}
               style={{ borderLeftColor: 'currentColor' }}
@@ -154,7 +154,7 @@ export default function Alerts() {
       {/* Alert Settings */}
       {alerts.length > 0 && (
         <div className="p-4 mt-4">
-          <div className="glass-card">
+          <div className="glass-card card-hover border-glow">
             <h3 className="font-semibold text-foreground mb-3">Preferências</h3>
             <div className="space-y-2 text-sm">
               <label className="flex items-center gap-2 cursor-pointer">
