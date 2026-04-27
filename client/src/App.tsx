@@ -10,6 +10,7 @@ import Chat from "./pages/Chat";
 import HelmetMode from "./pages/HelmetMode";
 import MapPage from "./pages/MapPage";
 import Alerts from "./pages/Alerts";
+import Settings from "./pages/Settings";
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       <Route path={"/helmet"} component={HelmetMode} />
       <Route path={"/map"} component={MapPage} />
       <Route path={"/alerts"} component={Alerts} />
+      <Route path={"/settings"} component={Settings} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

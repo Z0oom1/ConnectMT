@@ -23,26 +23,26 @@ export default function Alerts() {
     {
       id: '1',
       type: 'critical',
-      title: 'Possível queda detectada',
-      message: 'Ângulo de inclinação crítico detectado. Verifique seu status.',
+      title: 'Alerta de colisão',
+      message: 'Impacto detectado às 14:32',
       timestamp: new Date(Date.now() - 5 * 60000),
       read: false,
     },
     {
       id: '2',
       type: 'warning',
-      title: 'Vibração anormal',
-      message: 'Padrão de vibração fora do normal nas últimas 2 horas.',
+      title: 'Temperatura alta',
+      message: 'Temperatura do motor acima do ideal',
       timestamp: new Date(Date.now() - 15 * 60000),
       read: false,
     },
     {
       id: '3',
       type: 'info',
-      title: 'Manutenção programada',
-      message: 'Sua moto atingiu 5000km. Hora de fazer revisão.',
+      title: 'Manutenção',
+      message: 'Troca de óleo recomendada em 500 km',
       timestamp: new Date(Date.now() - 1 * 3600000),
-      read: true,
+      read: false,
     },
   ]);
 
@@ -76,22 +76,22 @@ export default function Alerts() {
   const getAlertColor = (type: Alert['type']) => {
     switch (type) {
       case 'critical':
-        return 'border-red-500/50 bg-red-500/10';
+        return 'border-red-500/20 bg-red-500/5';
       case 'warning':
-        return 'border-yellow-500/50 bg-yellow-500/10';
+        return 'border-yellow-500/20 bg-yellow-500/5';
       case 'info':
-        return 'border-green-500/50 bg-green-500/10';
+        return 'border-blue-500/20 bg-blue-500/5';
     }
   };
 
   const getAlertTextColor = (type: Alert['type']) => {
     switch (type) {
       case 'critical':
-        return 'text-red-400';
+        return 'text-red-500';
       case 'warning':
-        return 'text-yellow-400';
+        return 'text-yellow-500';
       case 'info':
-        return 'text-green-400';
+        return 'text-accent';
     }
   };
 
@@ -106,7 +106,7 @@ export default function Alerts() {
       </div>
 
       {/* Alerts List */}
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-4">
         {alerts.length === 0 ? (
           <div className="glass-card text-center py-12">
             <CheckCircle2 className="mx-auto mb-4 text-green-500" size={48} />
@@ -119,47 +119,31 @@ export default function Alerts() {
           alerts.map((alert) => (
             <div
               key={alert.id}
-              className={`glass-card border-2 transition-smooth ${getAlertColor(
+              className={`glass-card border-l-4 transition-smooth p-5 ${getAlertColor(
                 alert.type
               )} ${alert.type === 'critical' ? 'flash-alert' : ''}`}
+              style={{ borderLeftColor: 'currentColor' }}
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-4">
                 <div className={`flex-shrink-0 mt-1 ${getAlertTextColor(alert.type)}`}>
                   {getAlertIcon(alert.type)}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className={`font-semibold ${getAlertTextColor(alert.type)}`}>
+                  <h3 className={`text-base font-bold ${getAlertTextColor(alert.type)}`}>
                     {alert.title}
                   </h3>
-                  <p className="text-sm text-foreground mt-1">{alert.message}</p>
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-sm text-foreground/80 mt-1">{alert.message}</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-3">
                     {alert.timestamp.toLocaleTimeString('pt-BR', {
                       hour: '2-digit',
                       minute: '2-digit',
                     })}
                   </p>
-                </div>
-
-                <div className="flex gap-2 flex-shrink-0">
-                  {!alert.read && (
-                    <Button
-                      onClick={() => handleMarkAsRead(alert.id)}
-                      variant="ghost"
-                      size="sm"
-                      className="text-accent hover:bg-accent/20"
-                    >
-                      ✓
-                    </Button>
-                  )}
-                  <Button
-                    onClick={() => handleDismiss(alert.id)}
-                    variant="ghost"
-                    size="sm"
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <X size={18} />
-                  </Button>
+                  
+                  <button className="text-xs text-accent font-medium mt-3 underline underline-offset-4">
+                    Ver detalhes
+                  </button>
                 </div>
               </div>
             </div>

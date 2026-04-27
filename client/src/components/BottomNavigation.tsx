@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'wouter';
-import { Home, BarChart3, MessageCircle, Headphones, Map, AlertCircle } from 'lucide-react';
+import { Home, BarChart3, MessageCircle, Headphones, Map, AlertCircle, Settings } from 'lucide-react';
 
 interface NavItem {
   id: string;
@@ -25,6 +25,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({ currentPath 
     { id: 'helmet', label: 'Pilotagem', icon: <Headphones size={24} />, path: '/helmet' },
     { id: 'map', label: 'Mapa', icon: <Map size={24} />, path: '/map' },
     { id: 'alerts', label: 'Alertas', icon: <AlertCircle size={24} />, path: '/alerts' },
+    { id: 'settings', label: 'Ajustes', icon: <Settings size={24} />, path: '/settings' },
   ];
 
   return (
