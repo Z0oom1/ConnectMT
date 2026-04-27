@@ -4,6 +4,7 @@ import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Send, Loader2 } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
 
 interface Message {
   id: string;
@@ -27,8 +28,9 @@ export default function Chat() {
     },
   ]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const chatMutation = trpc.ai.chat.useMutation();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -39,7 +41,7 @@ export default function Chat() {
   }, [messages]);
 
   const handleSendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || chatMutation.isPending) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -50,27 +52,36 @@ export default function Chat() {
 
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
-    setIsLoading(true);
 
-    setTimeout(() => {
-      const responses = [
-        'Detectei um padrão de vibração fora do normal nas últimas 2 horas. Recomendo verificar a corrente.',
-        'A temperatura está dentro dos limites normais. Tudo certo!',
-        'Sua moto está em perfeito estado. Continue curtindo a estrada!',
-        'Notei que o consumo de combustível aumentou. Pode ser hora de fazer uma revisão.',
-      ];
+    try {
+      const response = await chatMutation.mutateAsync({
+        messages: [...messages, userMessage].map(m => ({
+          role: m.role,
+          content: m.content
+        }))
+      });
 
       const aiMessage: Message = {
         id: Date.now().toString(),
         role: 'assistant',
-        content: responses[Math.floor(Math.random() * responses.length)],
+        content: response.message,
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, aiMessage]);
-      setIsLoading(false);
-    }, 1500);
+    } catch (error) {
+      console.error("Erro ao enviar mensagem:", error);
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: "Desculpe, tive um problema ao processar sua solicitação. Pode tentar novamente?",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    }
   };
+
+  const isLoading = chatMutation.isPending;
 
   return (
     <div className="min-h-screen bg-background flex flex-col pb-24">

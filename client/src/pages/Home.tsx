@@ -3,7 +3,7 @@ import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { MotoBikeSilhouette } from '@/components/MotoBikeSilhouette';
 import { BottomNavigation } from '@/components/BottomNavigation';
-import { useLocation } from 'wouter';
+import { useLocation, Link } from 'wouter';
 import { getLoginUrl } from '@/const';
 
 /**
@@ -108,17 +108,21 @@ export default function Home() {
 
         {/* Action Buttons */}
         <div className="mt-8 w-full max-w-sm space-y-3">
-          <Button
-            className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-press"
-          >
-            Falar com IA
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full border-accent/30 text-accent hover:bg-accent/10 btn-press"
-          >
-            Ver Dashboard
-          </Button>
+          <Link href="/chat">
+            <Button
+              className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-press mb-3"
+            >
+              Falar com IA
+            </Button>
+          </Link>
+          <Link href="/dashboard">
+            <Button
+              variant="outline"
+              className="w-full border-accent/30 text-accent hover:bg-accent/10 btn-press"
+            >
+              Ver Dashboard
+            </Button>
+          </Link>
         </div>
       </div>
 
