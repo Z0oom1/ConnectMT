@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { useLocation } from 'wouter';
 import { Gauge, Compass, Thermometer, MapPin, Zap, Battery, Activity } from 'lucide-react';
 import { MotoBikeSilhouette } from '@/components/MotoBikeSilhouette';
+import { CardAnimation, PageTransition } from '@/components/PageTransition';
 
 interface DashboardMetric {
   id: string;
@@ -112,13 +114,10 @@ export default function Dashboard() {
       {/* Metrics Grid */}
       <div className="p-4 grid grid-cols-2 gap-4">
         {metrics.map((metric, index) => (
-          <div
-            key={metric.id}
-            className="glass-card card-hover group cursor-pointer flex flex-col border-glow"
-            style={{
-              animation: `slideUp 0.5s ease-out ${index * 0.1}s both`,
-            }}
-          >
+          <CardAnimation key={metric.id} delay={index * 0.1}>
+            <div
+              className="glass-card card-hover group cursor-pointer flex flex-col border-glow h-full"
+            >
             <p className="text-xs text-muted-foreground mb-3 uppercase tracking-wider">{metric.label}</p>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="text-3xl font-bold text-foreground group-hover:text-accent transition-smooth glow-pulse">
@@ -127,21 +126,11 @@ export default function Dashboard() {
             </div>
             <span className="text-xs text-muted-foreground font-medium uppercase">{metric.unit}</span>
           </div>
+          </CardAnimation>
         ))}
       </div>
 
-      <style>{`
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+
 
       {/* Bottom Navigation */}
       <BottomNavigation currentPath={location} />

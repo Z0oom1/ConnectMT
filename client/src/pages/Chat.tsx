@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Send, Loader2 } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
+import { ListItemAnimation } from '@/components/PageTransition';
 
 interface Message {
   id: string;
@@ -93,18 +95,24 @@ export default function Chat() {
 
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
-            <div
-              className={`max-w-xs px-4 py-3 rounded-lg transition-smooth fade-in ${
-                message.role === 'user'
-                  ? 'bg-accent text-accent-foreground rounded-br-none shadow-lg'
-                  : 'glass text-foreground rounded-bl-none border-glow'
-              }`}
+        <AnimatePresence>
+          {messages.map((message) => (
+            <motion.div
+              key={message.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
+              <motion.div
+                whileHover={message.role === 'user' ? { scale: 1.02 } : {}}
+                className={`max-w-xs px-4 py-3 rounded-lg transition-smooth ${
+                  message.role === 'user'
+                    ? 'bg-accent text-accent-foreground rounded-br-none shadow-lg'
+                    : 'glass text-foreground rounded-bl-none border-glow'
+                }`}
+              >
               <p className="text-sm">{message.content}</p>
               <p className="text-xs mt-2 opacity-70">
                 {message.timestamp.toLocaleTimeString('pt-BR', {
@@ -112,21 +120,29 @@ export default function Chat() {
                   minute: '2-digit',
                 })}
               </p>
-            </div>
-          </div>
-        ))}
+            </motion.div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
 
-        {isLoading && (
-          <div className="flex justify-start fade-in">
-            <div className="glass px-4 py-3 rounded-lg rounded-bl-none border-glow">
-              <div className="thinking-dots">
-                <span></span>
-                <span></span>
-                <span></span>
+        <AnimatePresence>
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="flex justify-start"
+            >
+              <div className="glass px-4 py-3 rounded-lg rounded-bl-none border-glow">
+                <div className="thinking-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {isLoading && (
           <div className="flex justify-start mt-4">
