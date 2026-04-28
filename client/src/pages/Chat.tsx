@@ -4,7 +4,7 @@ import { BottomNavigation } from '@/components/BottomNavigation';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Send, Loader2, Mic, MicOff, Volume2, VolumeX } from 'lucide-react';
+import { Send, Loader2, Mic, MicOff, Volume2, VolumeX, Trash2 } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
 
@@ -40,6 +40,8 @@ export default function Chat() {
   const chatMutation = trpc.ai.chat.useMutation();
   const uploadMutation = trpc.storage.uploadBase64.useMutation();
   const transcribeMutation = trpc.voice.transcribe.useMutation();
+  const saveChatMessageMutation = trpc.data.saveChatMessage.useMutation();
+  const getChatHistoryQuery = trpc.data.getChatHistory.useQuery({ limit: 50 });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -48,6 +50,23 @@ export default function Chat() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Load chat history on mount
+  useEffect(() => {
+    if (getChatHistoryQuery.data && getChatHistoryQuery.data.length > 0) {
+      const loadedMessages = getChatHistoryQuery.data.map((msg, idx) => ({
+        id: `${msg.id}`,
+        role: msg.role as 'user' | 'assistant',
+        content: msg.content,
+        timestamp: new Date(msg.createdAt),
+      }));
+      
+      // Only load if we don't have messages yet (beyond the initial greeting)
+      if (messages.length === 1) {
+        setMessages([...messages, ...loadedMessages]);
+      }
+    }
+  }, [getChatHistoryQuery.data]);
 
   const handleSendMessage = async (text?: string) => {
     const messageContent = text || input;
@@ -62,6 +81,16 @@ export default function Chat() {
 
     setMessages((prev) => [...prev, userMessage]);
     if (!text) setInput('');
+
+    // Save user message to database
+    try {
+      await saveChatMessageMutation.mutateAsync({
+        role: 'user',
+        content: messageContent,
+      });
+    } catch (err) {
+      console.error('Error saving user message:', err);
+    }
 
     try {
       const response = await chatMutation.mutateAsync({
@@ -79,6 +108,16 @@ export default function Chat() {
       };
 
       setMessages((prev) => [...prev, aiMessage]);
+      
+      // Save AI message to database
+      try {
+        await saveChatMessageMutation.mutateAsync({
+          role: 'assistant',
+          content: response.message,
+        });
+      } catch (err) {
+        console.error('Error saving AI message:', err);
+      }
       
       if (!isMuted) {
         speak(response.message);
@@ -171,6 +210,18 @@ export default function Chat() {
     }
   };
 
+  const clearChat = () => {
+    setMessages([
+      {
+        id: '1',
+        role: 'assistant',
+        content: 'Olá! Sou a IA da ConnectMT. Como posso ajudar com sua moto hoje?',
+        timestamp: new Date(),
+      }
+    ]);
+    toast.success('Chat limpo');
+  };
+
   const isLoading = chatMutation.isPending || uploadMutation.isPending || transcribeMutation.isPending;
 
   return (
@@ -181,14 +232,24 @@ export default function Chat() {
           <h1 className="text-2xl font-bold text-accent">IA ConnectMT</h1>
           <p className="text-sm text-muted-foreground mt-1">Diagnóstico inteligente</p>
         </div>
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          onClick={() => setIsMuted(!isMuted)}
-          className="text-muted-foreground"
-        >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setIsMuted(!isMuted)}
+            className="text-muted-foreground"
+          >
+            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={clearChat}
+            className="text-muted-foreground"
+          >
+            <Trash2 size={20} />
+          </Button>
+        </div>
       </div>
 
       {/* Messages Container */}
