@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { aiRouter } from "./aiRouter";
 import { voiceRouter } from "./voiceRouter";
 import { storageRouter } from "./storageRouter";
+import { dataRouter } from "./dataRouter";
 import { publicProcedure, router } from "./_core/trpc";
 
 export const appRouter = router({
@@ -12,6 +13,7 @@ export const appRouter = router({
   ai: aiRouter,
   voice: voiceRouter,
   storage: storageRouter,
+  data: dataRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
