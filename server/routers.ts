@@ -3,6 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { aiRouter } from "./aiRouter";
 import { voiceRouter } from "./voiceRouter";
+import { storageRouter } from "./storageRouter";
 import { publicProcedure, router } from "./_core/trpc";
 
 export const appRouter = router({
@@ -10,6 +11,7 @@ export const appRouter = router({
   system: systemRouter,
   ai: aiRouter,
   voice: voiceRouter,
+  storage: storageRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
