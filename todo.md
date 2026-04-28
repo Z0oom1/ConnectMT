@@ -34,10 +34,10 @@
 - [x] Personalidade própria da IA nas respostas (ConnectMT Tech)
 
 ## Text-to-Speech (Síntese de Voz)
-- [ ] Integrar API de text-to-speech para respostas da IA
-- [ ] Implementar reprodução de áudio com personalidade
-- [ ] Controles de play/pause/stop
-- [ ] Indicador visual de áudio reproduzindo
+- [x] Integrar API de text-to-speech para respostas da IA
+- [x] Implementar reprodução de áudio com personalidade
+- [x] Controles de play/pause/stop
+- [x] Indicador visual de áudio reproduzindo
 
 ## Modo Capacete
 - [x] Criar tela minimalista com apenas o essencial
@@ -45,9 +45,9 @@
 - [x] Implementar pulso circular animado ao escutar
 - [x] Onda sonora em tempo real durante gravação
 - [x] Feedback tátil (vibração) ao iniciar/finalizar gravação
-- [ ] Feedback sonoro ao interagir
-- [ ] Integração de transcrição de áudio (speech-to-text)
-- [ ] Envio automático de comando de voz para IA
+- [x] Feedback sonoro ao interagir
+- [x] Integração de transcrição de áudio (speech-to-text)
+- [x] Envio automático de comando de voz para IA
 
 ## Mapa
 - [x] Implementar mapa estilo dark neon
@@ -60,7 +60,7 @@
 - [x] Criar tela com fundo escuro + vermelho sutil
 - [x] Exibir alertas como "Possível queda detectada"
 - [x] Animação de flash leve
-- [x] Feedback de vibração ao receber alerta
+- [x] Feedback de vibração ao dispensar
 - [x] Sistema de notificações críticas
 
 ## Micro-Animações Globais
@@ -80,9 +80,9 @@
 ## Testes & Validação
 - [ ] Testar todas as animações em dispositivos mobile reais
 - [ ] Validar responsividade em diferentes tamanhos de tela
-- [ ] Testar integração de IA e respostas
-- [ ] Validar transcrição de áudio e text-to-speech
-- [ ] Testar feedback tátil e sonoro
+- [x] Testar integração de IA e respostas
+- [x] Validar transcrição de áudio e text-to-speech
+- [x] Testar feedback tátil e sonoro
 - [ ] Validar performance das animações
 
 ## Deployment
